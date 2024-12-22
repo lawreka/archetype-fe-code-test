@@ -1,4 +1,5 @@
 import { Survey, SurveyResponse } from '@/types/survey';
+import { delay, error1in5 } from './utils'
 
 const STORAGE_KEY = 'surveys';
 const RESPONSES_STORAGE_KEY = 'survey_responses';
@@ -9,17 +10,28 @@ export function getSurveys(): Survey[] {
   return surveys ? JSON.parse(surveys) : [];
 }
 
+export async function getSurveysAsync(): Promise<Survey[] | Error> {
+  if (typeof window === 'undefined') return new Promise(() => []);
+  const surveys = getSurveys();
+  const success = error1in5();
+  if (success) {
+    return delay(2000).then(() => surveys)
+  } else {
+    return delay(2000).then(() => new Error('Failed to fetch surveys'))
+  }
+}
+
 export function saveSurvey(survey: Survey): void {
   if (typeof window === 'undefined') return;
   const surveys = getSurveys();
   const existingIndex = surveys.findIndex((s) => s.id === survey.id);
-  
+
   if (existingIndex >= 0) {
     surveys[existingIndex] = survey;
   } else {
     surveys.push(survey);
   }
-  
+
   localStorage.setItem(STORAGE_KEY, JSON.stringify(surveys));
 }
 

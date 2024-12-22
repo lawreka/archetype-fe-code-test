@@ -1,27 +1,32 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+
+import { Button } from "@/components/ui/button";
+import { Dashboard } from "@/components/views/dashboard";
+import { useMount } from '@/hooks/use-mount'
+import { getSurveysAsync } from "@/lib/survey";
+import { retry } from "@/lib/utils";
 import { Survey } from "@/types/survey";
-import { deleteSurvey, getSurveys } from "@/lib/survey";
-import { SurveyCard } from "@/components/survey/survey-card";
-import { toast } from "sonner";
 
 export default function Home() {
   const router = useRouter();
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<boolean>(false);
   const [surveys, setSurveys] = useState<Survey[]>([]);
 
-  useEffect(() => {
-    setSurveys(getSurveys());
-  }, []);
-
-  const handleDelete = (id: string) => {
-    deleteSurvey(id);
-    setSurveys(getSurveys());
-    toast.success("Survey deleted successfully");
-  };
+  useMount(() => {
+    retry(getSurveysAsync, 3).then((res) => {
+      if (res instanceof Error) {
+        setError(true)
+      } else {
+        setSurveys(res)
+        setLoading(false)
+      }
+    })
+  })
 
   return (
     <div className="container mx-auto py-8">
@@ -32,16 +37,7 @@ export default function Home() {
           Create New Test
         </Button>
       </div>
-
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {surveys.map((survey) => (
-          <SurveyCard
-            key={survey.id}
-            survey={survey}
-            onDelete={handleDelete}
-          />
-        ))}
-      </div>
+      <Dashboard error={error} loading={loading} surveys={surveys} setSurveys={setSurveys} />
     </div>
   );
 }
