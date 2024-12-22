@@ -2,14 +2,12 @@
 
 export const dynamic = 'force-dynamic';
 
-import { Button } from "@/components/ui/button";
-import { QuestionDisplay } from "@/components/survey/question-display";
 import { generateShareableLink, getSurveyById, saveSurveyResponse } from "@/lib/survey";
 import { Survey } from "@/types/survey";
-import { Share2 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { SurveyPage } from "@/components/views/survey-page";
 
 export default function SurveyPreview() {
   const params = useParams();
@@ -28,11 +26,15 @@ export default function SurveyPreview() {
     return <div>Survey not found</div>;
   }
 
-  const handleShare = () => {
-    const link = generateShareableLink(survey!.id);
-    navigator.clipboard.writeText(link);
-    toast.success("Link copied to clipboard!");
-  };
+  // const handleShare = () => {
+  //   const link = generateShareableLink(survey!.id);
+  //   navigator.clipboard.writeText(link);
+  //   toast.success("Link copied to clipboard!");
+  // };
+
+  const handleChange = (value: any, question: any) => {
+    setAnswers({ ...answers, [question.id]: value })
+  }
 
   const handleSubmit = () => {
     // Validate required questions
@@ -65,36 +67,11 @@ export default function SurveyPreview() {
   };
 
   return (
-    <div className="container mx-auto py-8">
-      <div className="max-w-3xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
-          <div>
-            <h1 className="text-3xl font-bold mb-2">{survey.title}</h1>
-            <p className="text-muted-foreground">{survey.description}</p>
-          </div>
-          <Button onClick={handleShare}>
-            <Share2 className="mr-2 h-4 w-4" />
-            Share
-          </Button>
-        </div>
-
-        <div className="space-y-6">
-          {survey.questions.map((question) => (
-            <QuestionDisplay
-              key={question.id}
-              question={question}
-              value={answers[question.id]}
-              onChange={(value) =>
-                setAnswers({ ...answers, [question.id]: value })
-              }
-            />
-          ))}
-        </div>
-
-        <div className="mt-8 flex justify-end">
-          <Button onClick={handleSubmit}>Submit Survey</Button>
-        </div>
-      </div>
-    </div>
+    <SurveyPage
+      survey={survey}
+      answers={answers}
+      onChange={handleChange}
+      onSubmit={handleSubmit}
+    />
   );
 }
