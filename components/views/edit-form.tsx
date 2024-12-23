@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -17,10 +17,6 @@ interface EditFormProps {
 
 export const EditForm = ({ survey, setSurvey, saveSurvey }: EditFormProps) => {
     const [editingIndex, setEditingIndex] = useState<number>(0);
-
-    useEffect(() => {
-        console.log(editingIndex)
-    }, [editingIndex])
 
     const resetEditingIndex = () => setEditingIndex(0);
 

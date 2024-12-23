@@ -19,7 +19,6 @@ export async function retry(f: () => Promise<any>, maxRetries: number, retryCoun
     const result = await f();
     return result;
   } catch (e) {
-    console.log("retry", retryCount);
     if (retryCount > maxRetries) {
       throw e
     }

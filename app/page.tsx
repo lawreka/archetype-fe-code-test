@@ -1,16 +1,14 @@
 "use client";
 
 import { useState } from "react";
-
+import { Survey } from "@/types/survey";
+import { getSurveysAsync } from "@/lib/survey";
 import { Dashboard } from "@/components/views/dashboard";
 import { NavBar } from "@/components/views/navbar";
 import { useMount } from '@/hooks/use-mount'
-import { getSurveysAsync } from "@/lib/survey";
 import { retry } from "@/lib/utils";
-import { Survey } from "@/types/survey";
 
 export default function Home() {
-
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
   const [surveys, setSurveys] = useState<Survey[]>([]);

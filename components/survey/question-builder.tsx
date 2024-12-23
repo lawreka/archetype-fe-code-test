@@ -1,10 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Question, QuestionType } from "@/types/survey";
+import { Question } from "@/types/survey";
 import { Trash2, EllipsisVertical, Pencil } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
@@ -27,8 +25,6 @@ interface QuestionBuilderProps {
 }
 
 export function QuestionBuilder({ question, editing, setEditing, onUpdate, onDelete, saveQuestion }: QuestionBuilderProps) {
-  // const showOptions = true;
-
   const handleOptionAdd = () => {
     const newOption = { id: crypto.randomUUID(), text: "" };
     onUpdate({

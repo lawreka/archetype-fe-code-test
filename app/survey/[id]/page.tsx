@@ -71,6 +71,5 @@ export default function SurveyPreview() {
         onSubmit={handleSubmit}
       />
     </div>
-
   );
 }
