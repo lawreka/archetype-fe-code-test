@@ -14,20 +14,29 @@ import { cn } from "@/lib/utils";
 
 interface QuestionDisplayProps {
   question: Question;
+  preview?: boolean;
   value: any;
   onChange: (value: any) => void;
 }
 
-export function QuestionDisplay({ question, value, onChange }: QuestionDisplayProps) {
+export function QuestionDisplay({ question, preview, value, onChange }: QuestionDisplayProps) {
   const isAnswered = value !== undefined && value !== "" && (!Array.isArray(value) || value.length > 0);
   const showError = question.required && !isAnswered;
 
   return (
     <Card className={cn("p-6", showError && "border-destructive")}>
-      <Label className="text-lg mb-4 block">
-        {question.text}
-        {question.required && <span className="text-destructive ml-1">*</span>}
-      </Label>
+      {preview && question.text == ""
+        ?
+        <Label className="text-lg mb-4 block text-slate-300">
+          {"Question text"}
+          {question.required && <span className="text-destructive ml-1">*</span>}
+        </Label>
+        :
+        <Label className="text-lg mb-4 block">
+          {question.text}
+          {question.required && <span className="text-destructive ml-1">*</span>}
+        </Label>
+      }
 
       {question.type === "text" && (
         <TextQuestion

@@ -2,12 +2,13 @@
 
 export const dynamic = 'force-dynamic';
 
-import { generateShareableLink, getSurveyById, saveSurveyResponse } from "@/lib/survey";
+import { getSurveyById, saveSurveyResponse } from "@/lib/survey";
 import { Survey } from "@/types/survey";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { SurveyPage } from "@/components/views/survey-page";
+import { NavBar } from "@/components/views/navbar";
 
 export default function SurveyPreview() {
   const params = useParams();
@@ -25,12 +26,6 @@ export default function SurveyPreview() {
   if (!survey) {
     return <div>Survey not found</div>;
   }
-
-  // const handleShare = () => {
-  //   const link = generateShareableLink(survey!.id);
-  //   navigator.clipboard.writeText(link);
-  //   toast.success("Link copied to clipboard!");
-  // };
 
   const handleChange = (value: any, question: any) => {
     setAnswers({ ...answers, [question.id]: value })
@@ -67,11 +62,15 @@ export default function SurveyPreview() {
   };
 
   return (
-    <SurveyPage
-      survey={survey}
-      answers={answers}
-      onChange={handleChange}
-      onSubmit={handleSubmit}
-    />
+    <div className="container mx-auto py-8">
+      <NavBar edit responses share />
+      <SurveyPage
+        survey={survey}
+        answers={answers}
+        onChange={handleChange}
+        onSubmit={handleSubmit}
+      />
+    </div>
+
   );
 }

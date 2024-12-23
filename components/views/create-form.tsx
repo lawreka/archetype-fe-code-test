@@ -15,19 +15,19 @@ interface CreateFormProps {
 
 export const CreateForm = ({ survey, setSurvey, validToSave, saveSurvey }: CreateFormProps) => {
     return (
-        <div className="max-w-3xl mx-auto mr-8">
-            <div className="space-y-4 mb-4 p-1">
-                <Label text-sm>Title</Label>
+        <div className="max-w-3xl mx-auto p-4">
+            <div className="space-y-2 mb-4 p-1">
+                <Label text-sm>Title (required)</Label>
                 <Input
-                    placeholder="My Survey"
+                    placeholder="Untitled"
                     value={survey.title}
                     onChange={(e) => setSurvey({ ...survey, title: e.target.value })}
                 />
             </div>
-            <div className="space-y-4 mb-4 p-1">
+            <div className="space-y-2 mb-4 p-1">
                 <Label text-sm>Description</Label>
                 <Textarea
-                    placeholder="Test Description"
+                    placeholder="Describe or introduce your survey"
                     value={survey.description}
                     onChange={(e) =>
                         setSurvey({ ...survey, description: e.target.value })

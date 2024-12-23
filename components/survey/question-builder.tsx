@@ -1,32 +1,33 @@
 "use client";
 
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Question, QuestionType } from "@/types/survey";
-import { Trash2 } from "lucide-react";
+import { Trash2, EllipsisVertical, Pencil } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
+import { Textarea } from "@/components/ui/textarea";
+import { cn } from '@/lib/utils';
 
 interface QuestionBuilderProps {
   question: Question;
+  editing: boolean;
+  setEditing: any;
   onUpdate: (question: Question) => void;
   onDelete: (id: string) => void;
+  saveQuestion: any;
 }
 
-export function QuestionBuilder({ question, onUpdate, onDelete }: QuestionBuilderProps) {
-  const questionTypes: { value: QuestionType; label: string }[] = [
-    { value: "text", label: "Text Input" },
-    { value: "checkbox", label: "Checkbox (Multiple Choice)" },
-    { value: "radio", label: "Radio (Single Choice)" },
-    { value: "multiselect", label: "Multi Select" },
-    { value: "singleselect", label: "Single Select" },
-    { value: "date", label: "Date Picker" },
-    { value: "rating", label: "Rating" },
-  ];
-
-  const showOptions = ["checkbox", "radio", "multiselect", "singleselect"].includes(question.type);
+export function QuestionBuilder({ question, editing, setEditing, onUpdate, onDelete, saveQuestion }: QuestionBuilderProps) {
+  // const showOptions = true;
 
   const handleOptionAdd = () => {
     const newOption = { id: crypto.randomUUID(), text: "" };
@@ -53,53 +54,58 @@ export function QuestionBuilder({ question, onUpdate, onDelete }: QuestionBuilde
   };
 
   return (
-    <Card className="p-4 mb-4">
-      <div className="flex gap-4 mb-4">
-        <div className="flex-1">
-          <Input
-            placeholder="Question text"
-            value={question.text}
-            onChange={(e) => onUpdate({ ...question, text: e.target.value })}
-          />
+    <Card className={cn("p-4 mb-4", { "outline": editing })}>
+      <div className="flex-col space-y-2 gap-4 mb-2">
+        <div className="flex justify-between items-center">
+          <Label text-sm>{question.typeLabel}</Label>
+          <div className="flex items-center gap-2">
+            <Switch
+              id={`required-${question.id}`}
+              checked={question.required}
+              onCheckedChange={(checked) =>
+                onUpdate({ ...question, required: checked })
+              }
+            />
+            <Label className="text-xs font-normal" htmlFor={`required-${question.id}`}>Required</Label>
+            <DropdownMenu>
+              <DropdownMenuTrigger className="w-full">
+                <EllipsisVertical className="stroke-slate-400" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                {!editing &&
+                  <DropdownMenuItem className="gap-2" onSelect={() => setEditing(question.index)}>
+                    <Pencil /> Edit
+                  </DropdownMenuItem>}
+                <DropdownMenuItem className="gap-2 text-destructive focus:text-destructive" onSelect={() => onDelete(question.id)}>
+                  <Trash2 /> Delete
+                </DropdownMenuItem>
+              </DropdownMenuContent >
+            </DropdownMenu>
+          </div>
         </div>
-        <Select
-          value={question.type}
-          onValueChange={(value: QuestionType) =>
-            onUpdate({ ...question, type: value })
-          }
-        >
-          <SelectTrigger className="w-[200px]">
-            <SelectValue placeholder="Question type" />
-          </SelectTrigger>
-          <SelectContent>
-            {questionTypes.map((type) => (
-              <SelectItem key={type.value} value={type.value}>
-                {type.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        <Button
-          variant="destructive"
-          size="icon"
-          onClick={() => onDelete(question.id)}
-        >
-          <Trash2 className="h-4 w-4" />
-        </Button>
-      </div>
 
-      <div className="flex items-center space-x-2 mb-4">
-        <Switch
-          id={`required-${question.id}`}
-          checked={question.required}
-          onCheckedChange={(checked) =>
-            onUpdate({ ...question, required: checked })
+        <div className="flex-1">
+          {editing ?
+            <Textarea
+              placeholder="Question text"
+              value={question.text}
+              onChange={(e) => onUpdate({ ...question, text: e.target.value })}
+            />
+            :
+            <Label className="text-lg block">
+              {question.text}
+            </Label>
           }
-        />
-        <Label htmlFor={`required-${question.id}`}>Required</Label>
-      </div>
 
-      {showOptions && (
+        </div>
+
+        {editing &&
+          <Button disabled={question.text == ""} onClick={saveQuestion}>
+            Save Question
+          </Button>
+        }
+      </div>
+      {/* {showOptions && (
         <div className="space-y-2">
           {question.options?.map((option) => (
             <div key={option.id} className="flex gap-2">
@@ -121,7 +127,7 @@ export function QuestionBuilder({ question, onUpdate, onDelete }: QuestionBuilde
             Add Option
           </Button>
         </div>
-      )}
+      )} */}
     </Card>
   );
 }

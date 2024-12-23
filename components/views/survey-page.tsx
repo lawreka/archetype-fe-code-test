@@ -15,7 +15,7 @@ export const SurveyPage = ({ survey, answers = {}, preview, onChange, onSubmit }
     return (
         <div className="container mx-auto p-2 bg-white h-full">
             <div className="max-w-3xl mx-auto flex flex-col h-full">
-                <div className="h-full">
+                <div className="h-full mb-8">
                     <div className="flex justify-between items-center mb-8">
                         <div>
                             {preview && survey.title == "" ?
@@ -31,6 +31,7 @@ export const SurveyPage = ({ survey, answers = {}, preview, onChange, onSubmit }
                         {survey.questions.map((question) => (
                             <QuestionDisplay
                                 key={question.id}
+                                preview={preview}
                                 question={question}
                                 value={answers[question.id]}
                                 onChange={(value) => onChange(value, question)}

@@ -23,7 +23,7 @@ export const Dashboard = ({ error, loading, surveys, setSurveys }: DashboardProp
 
     if (error) {
         return (
-            <div className="flex flex-col flex-1 grow justify-center items-center" >
+            <div className="flex flex-col flex-1 grow justify-center items-center text-center" >
                 Oh no! Your surveys failed to load.<br />
                 Don't worry though, they're safe in local storage. Please simply reload the page to try again.
             </div>
@@ -38,15 +38,17 @@ export const Dashboard = ({ error, loading, surveys, setSurveys }: DashboardProp
         );
     }
     return (
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3" >
-            {surveys.map((survey) => (
-                <SurveyCard
-                    key={survey.id}
-                    survey={survey}
-                    onDelete={handleDelete}
-                />
-            ))
-            }
-        </div>
-    )
+        <>
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3" >
+                {surveys.map((survey) => (
+                    <SurveyCard
+                        key={survey.id}
+                        survey={survey}
+                        onDelete={handleDelete}
+                    />
+                ))
+                }
+            </div>
+        </>
+    );
 }
