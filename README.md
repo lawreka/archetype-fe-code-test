@@ -14,28 +14,51 @@ By quickly going through the Airtable, Typeform, and Google Forms flows, I creat
   - response viewing
 
 Landing page
+
 <img src="writeup/Landing.png" alt="Landing page" width="500" height="auto" style="display:block" />
+
 Dashboard
+
 <img src="writeup/Dashboard.png" alt="Dashboard" width="500" height="auto" style="display:block" />
+
 Dashboard (empty)
+
 <img src="writeup/Dashboard%20(empty).png" alt="Dashboard (empty)" width="500" height="auto" style="display:block" />
+
 Survey initialization
+
 <img src="writeup/Initialize.png" alt="Survey initialization" width="500" height="auto" style="display:block" />
+
 Survey initialization (with open preview panel)
+
 <img src="writeup/Initialize%20(Open%20Preview).png" alt="Survey initialization (with open preview panel)" width="500" height="auto" style="display:block" />
+
 Editing
+
 <img src="writeup/Add%20+%20Edit%20fields.png" alt="Editing" width="500" height="auto" style="display:block" />
+
 Editing (with open preview panel)
+
 <img src="writeup/Add%20+%20Edit%20fields%20(editing,%20with%20preview).png" alt="Editing (with open preview panel)" width="500" height="auto" style="display:block" />
+
 Sharing
+
 <img src="writeup/Share.png" alt="Sharing" width="500" height="auto" style="display:block" />
+
 Taking the survey
+
 <img src="writeup/View%20+%20Take%20Survey.png" alt="Taking the survey" width="500" height="auto" style="display:block" />
+
 Viewing responses (individual)
+
 <img src="writeup/View%20Responses%20(Individual).png" alt="Viewing responses (individual)" width="500" height="auto" style="display:block" />
+
 Viewing responses (individual with full response)
+
 <img src="writeup/View%20Responses%20(Individual%20full%20response).png" alt="Viewing responses (individual with full response)" width="500" height="auto" style="display:block" />
+
 Viewing responses (aggregated)
+
 <img src="writeup/View%20Responses%20(Aggregate).png" alt="Viewing responses (aggregated)" width="500" height="auto" style="display:block" />
 
 ## Code
